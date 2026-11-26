@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ApexFit — train smarter, feel stronger.">
+  <title>ApexFit | Train Smarter. Live Stronger.</title>
+  <style>
+    :root {
+      --ink: #17211d;
+      --muted: #68736d;
+      --green: #b9f36b;
+      --green-dark: #76b82f;
+      --paper: #f7f9f5;
+      --white: #ffffff;
+      --line: #e5eae2;
+      --dark: #17211d;
+      --radius: 22px;
+      --shadow: 0 18px 50px rgba(23, 33, 29, .09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Arial, Helvetica, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    .container { width: min(1120px, 92%); margin: auto; }
+    .topbar { background: var(--dark); color: #dce5dd; text-align: center; padding: 8px 12px; font-size: .82rem; letter-spacing: .04em; }
+    header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo { font-size: 1.45rem; font-weight: 900; letter-spacing: -.07em; }
+    .logo span { color: var(--green-dark); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; font-size: .94rem; font-weight: 700; }
+    .nav-links a:hover { color: var(--green-dark); }
+    .menu-btn { display: none; border: 0; background: transparent; font-size: 1.7rem; cursor: pointer; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; padding: 13px 22px; font-weight: 800; cursor: pointer; transition: transform .2s, background .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--green); color: var(--dark); }
+    .btn-primary:hover { background: #a7e957; }
+    .btn-dark { background: var(--dark); color: white; }
+    .hero { padding: 76px 0 72px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: 48px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #557d2b; background: #edf8df; border-radius: 99px; padding: 7px 13px; font-size: .78rem; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; }
+    h1 { font-size: clamp(3rem, 6vw, 5.4rem); line-height: .99; letter-spacing: -.075em; margin: 22px 0; max-width: 650px; }
+    h1 span { color: var(--green-dark); }
+    .hero-copy { color: var(--muted); font-size: 1.08rem; max-width: 520px; margin-bottom: 28px; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+    .hero-note { margin-top: 27px; color: var(--muted); font-size: .88rem; }
+    .hero-photo { position: relative; }
+    .hero-photo img { width: 100%; height: 500px; object-fit: cover; border-radius: 34px; display: block; box-shadow: var(--shadow); }
+    .floating-card { position: absolute; left: -25px; bottom: 28px; background: white; padding: 17px 20px; border-radius: 18px; box-shadow: var(--shadow); }
+    .floating-card strong { display: block; font-size: 1.35rem; }
+    .floating-card small { color: var(--muted); }
+    .stats { background: white; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); padding: 27px 0; text-align: center; }
+    .stat + .stat { border-left: 1px solid var(--line); }
+    .stat strong { display: block; font-size: 1.8rem; letter-spacing: -.05em; }
+    .stat span { color: var(--muted); font-size: .88rem; }
+    section { padding: 86px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+    .section-head h2 { font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.065em; line-height: 1.05; margin-top: 12px; }
+    .section-head p { color: var(--muted); max-width: 410px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .program-card { background: white; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .program-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .program-card img { width: 100%; height: 215px; object-fit: cover; display: block; }
+    .card-content { padding: 23px; }
+    .card-content h3 { font-size: 1.25rem; margin-bottom: 8px; }
+    .card-content p { color: var(--muted); font-size: .94rem; }
+    .tag { display: inline-block; margin-top: 17px; background: #eff7e7; color: #557d2b; padding: 5px 10px; border-radius: 99px; font-size: .75rem; font-weight: 800; }
+    .about { background: #edf3e9; }
+    .about-grid { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 55px; }
+    .about-img img { width: 100%; height: 420px; object-fit: cover; border-radius: 30px; display: block; }
+    .about-copy h2 { font-size: clamp(2.2rem, 4vw, 3.5rem); letter-spacing: -.07em; line-height: 1.05; margin: 16px 0; }
+    .about-copy p { color: var(--muted); margin-bottom: 20px; }
+    .checks { list-style: none; display: grid; gap: 12px; margin: 24px 0 30px; font-weight: 700; }
+    .checks li::before { content: "✓"; color: #5f9828; font-weight: 900; margin-right: 10px; }
+    .plans { background: white; }
+    .plan-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 27px; background: var(--paper); }
+    .plan-card.featured { background: var(--dark); color: white; border-color: var(--dark); transform: translateY(-8px); }
+    .plan-card .plan-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 900; color: var(--green-dark); }
+    .plan-card h3 { font-size: 1.35rem; margin: 10px 0; }
+    .price { font-size: 2.5rem; font-weight: 900; letter-spacing: -.06em; margin: 14px 0; }
+    .price small { font-size: .9rem; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+    .featured .price small, .featured p { color: #c4d0c8; }
+    .plan-card p { color: var(--muted); font-size: .92rem; min-height: 48px; }
+    .plan-card ul { list-style: none; margin: 22px 0; display: grid; gap: 10px; font-size: .92rem; }
+    .plan-card li::before { content: "✓"; color: var(--green-dark); margin-right: 9px; font-weight: 900; }
+    .featured li::before { color: var(--green); }
+    .contact-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 45px; }
+    .contact-copy h2 { font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -.07em; margin: 15px 0; }
+    .contact-copy p { color: var(--muted); }
+    .contact-detail { margin-top: 24px; font-weight: 700; }
+    form { background: white; border: 1px solid var(--line); padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    label { display: block; font-size: .85rem; font-weight: 800; margin-bottom: 7px; }
+    input, select, textarea { width: 100%; padding: 13px 14px; border: 1px solid #dce4d9; border-radius: 12px; background: #fbfcfa; outline: none; margin-bottom: 16px; }
+    input:focus, select:focus, textarea:focus { border-color: var(--green-dark); box-shadow: 0 0 0 3px rgba(118,184,47,.12); }
+    textarea { min-height: 105px; resize: vertical; }
+    .form-message { margin-top: 12px; color: #477b1d; font-weight: 700; min-height: 24px; }
+    footer { background: var(--dark); color: white; padding: 34px 0 22px; }
+    .footer-top { display: flex; justify-content: space-between; align-items: center; gap: 25px; flex-wrap: wrap; }
+    footer p { color: #b9c6bd; font-size: .88rem; }
+    .student-info { margin-top: 25px; padding: 15px 18px; border: 1px solid #45534a; border-radius: 14px; color: #dce5dd; font-size: .88rem; }
+    .student-info strong { color: var(--green); }
+    .copyright { border-top: 1px solid #3a4840; margin-top: 25px; padding-top: 18px; text-align: center; color: #9eaca2; font-size: .8rem; }
+    @media (max-width: 800px) {
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 52px; }
+      .hero-photo img { height: 390px; }
+      .floating-card { left: 12px; }
+      .cards { grid-template-columns: 1fr 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 14px; }
+      .plan-card.featured { transform: none; }
+    }
+    @media (max-width: 600px) {
+      .menu-btn { display: block; }
+      .nav-cta { display: none; }
+      .nav-links { display: none; position: absolute; top: 76px; left: 0; right: 0; background: white; padding: 20px 4%; border-bottom: 1px solid var(--line); flex-direction: column; align-items: flex-start; gap: 16px; }
+      .nav-links.open { display: flex; }
+      h1 { font-size: 3.25rem; }
+      .hero-photo img { height: 320px; }
+      .cards, .stats-grid, .form-row { grid-template-columns: 1fr; }
+      .stat { padding: 12px 0; }
+      .stat + .stat { border-left: 0; border-top: 1px solid var(--line); }
+      section { padding: 65px 0; }
+      .about-img img { height: 310px; }
+      form { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">YOUR GOALS. YOUR PACE. YOUR STRONGER FUTURE.</div>
+  <header>
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="logo" href="#home">APEX<span>FIT.</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li><li><a href="#programs">Programs</a></li>
+        <li><a href="#about">About</a></li><li><a href="#plans">Plans</a></li><li><a href="#contact">Contact</a></li>
+      </ul>
+      <a class="btn btn-primary nav-cta" href="#contact">Join Us</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">● FITNESS, MADE PERSONAL</span>
+          <h1>Train smarter.<br><span>Live stronger.</span></h1>
+          <p class="hero-copy">Build healthy habits, learn the right techniques and make progress that lasts. Your fitness journey starts with one step — we'll help with the rest.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#plans">Explore Memberships →</a>
+            <a class="btn btn-dark" href="#programs">View Programs</a>
+          </div>
+          <p class="hero-note">✓ Friendly coaches &nbsp; ✓ Flexible training &nbsp; ✓ All levels welcome</p>
+        </div>
+        <div class="hero-photo">
+          <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1100&q=85" alt="Modern gym with strength training equipment">
+          <div class="floating-card"><strong>MOVE BETTER.</strong><small>Feel stronger every day.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stats">
+      <div class="container stats-grid">
+        <div class="stat"><strong>01</strong><span>Start where you are</span></div>
+        <div class="stat"><strong>100%</strong><span>Focus on your progress</span></div>
+        <div class="stat"><strong>365</strong><span>Days to build better habits</span></div>
+      </div>
+    </div>
+
+    <section id="programs">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">WHAT WE OFFER</span><h2>Find your way<br>to get stronger.</h2></div>
+          <p>Choose a training style that fits your goals, experience and schedule. Our coaches can help you find the right starting point.</p>
+        </div>
+        <div class="cards">
+          <article class="program-card">
+            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=85" alt="Person training with weights">
+            <div class="card-content"><h3>Strength Training</h3><p>Learn safe lifting techniques and build strength with a structured training plan.</p><span class="tag">BUILD STRENGTH</span></div>
+          </article>
+          <article class="program-card">
+            <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=800&q=85" alt="Athlete doing cardio workout">
+            <div class="card-content"><h3>Cardio & Conditioning</h3><p>Improve stamina and support heart health with enjoyable, progressive sessions.</p><span class="tag">BOOST STAMINA</span></div>
+          </article>
+          <article class="program-card">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=85" alt="Person doing a stretching exercise">
+            <div class="card-content"><h3>Mobility & Flexibility</h3><p>Work on balance, movement quality and flexibility at a pace that suits you.</p><span class="tag">MOVE WITH EASE</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1000&q=85" alt="Bright and spacious fitness studio"></div>
+        <div class="about-copy">
+          <span class="eyebrow">THE APEXFIT APPROACH</span>
+          <h2>Fitness should fit your life.</h2>
+          <p>ApexFit is an imaginary fitness brand built around a simple idea: consistent, balanced training is more useful than quick fixes. We aim to make the gym welcoming, practical and motivating for everyone.</p>
+          <ul class="checks"><li>Guidance from supportive trainers</li><li>Training options for different experience levels</li><li>Clean, welcoming workout spaces</li><li>Progress built on consistency and good habits</li></ul>
+          <a class="btn btn-dark" href="#contact">Talk to our team</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="plans" id="plans">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">SIMPLE MEMBERSHIPS</span><h2>Choose your<br>training plan.</h2></div>
+          <p>Sample prices for this student project. Membership details can be customised for a real business.</p>
+        </div>
+        <div class="cards">
+          <article class="plan-card"><span class="plan-label">STARTER</span><h3>Basic</h3><div class="price">₹999 <small>/ month</small></div><p>A simple way to begin building a regular gym routine.</p><ul><li>Gym floor access</li><li>Basic orientation</li><li>Locker access</li></ul><a class="btn btn-dark" href="#contact">Choose Basic</a></article>
+          <article class="plan-card featured"><span class="plan-label">MOST POPULAR</span><h3>Plus</h3><div class="price">₹1,499 <small>/ month</small></div><p>Extra guidance to help you stay consistent with your goals.</p><ul><li>Everything in Basic</li><li>Group training sessions</li><li>Monthly progress review</li></ul><a class="btn btn-primary" href="#contact">Choose Plus</a></article>
+          <article class="plan-card"><span class="plan-label">PERSONALISED</span><h3>Pro</h3><div class="price">₹2,499 <small>/ month</small></div><p>More individual support for a focused training experience.</p><ul><li>Everything in Plus</li><li>Personal training session</li><li>Custom workout guidance</li></ul><a class="btn btn-dark" href="#contact">Choose Pro</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <span class="eyebrow">LET'S GET STARTED</span>
+          <h2>Your next chapter starts here.</h2>
+          <p>Have a question or want to know which plan suits you? Send us a message using the form.</p>
+          <div class="contact-detail">Email: hello@apexfit.example<br>Location: Mumbai, Maharashtra</div>
+        </div>
+        <form id="contactForm">
+          <div class="form-row">
+            <div><label for="fullName">Your name</label><input id="fullName" name="fullName" type="text" placeholder="Enter your name" required></div>
+            <div><label for="email">Email address</label><input id="email" name="email" type="email" placeholder="you@example.com" required></div>
+          </div>
+          <label for="interest">I'm interested in</label>
+          <select id="interest" name="interest"><option>Strength Training</option><option>Cardio & Conditioning</option><option>Mobility & Flexibility</option><option>Membership Plans</option></select>
+          <label for="message">Message</label><textarea id="message" name="message" placeholder="Tell us how we can help..."></textarea>
+          <button class="btn btn-primary" type="submit">Send Message →</button>
+          <p class="form-message" id="formMessage" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top"><a class="logo" href="#home">APEX<span>FIT.</span></a><p>Train with purpose. Progress at your pace.</p></div>
+      <div class="student-info">
+        <strong>STUDENT PROJECT DETAILS</strong><br>
+        Name: VIVEK YADAV &nbsp; | &nbsp; Class: B.Sc. IT / FYBSc IT<br>
+        Division: B &nbsp; | &nbsp; Roll Number: 32
+      </div>
+      <div class="copyright">© 2026 ApexFit. This is an imaginary brand created for an academic web development project.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile navigation menu
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+
+    menuBtn.addEventListener("click", function () {
+      const isOpen = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", isOpen);
+      menuBtn.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // Close the mobile menu after clicking a navigation link
+    document.querySelectorAll(".nav-links a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        navLinks.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+    // Demo contact form: shows a message; it does not send data to a server
+    const contactForm = document.getElementById("contactForm");
+    const formMessage = document.getElementById("formMessage");
+
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const visitorName = document.getElementById("fullName").value.trim();
+      formMessage.textContent = "Thanks, " + visitorName + "! This demo form is working. No data was sent.";
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
